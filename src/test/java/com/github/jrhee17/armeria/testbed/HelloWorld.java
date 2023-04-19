@@ -1,4 +1,4 @@
-package org.guins.armeria.testbed;
+package com.github.jrhee17.armeria.testbed;
 
 import org.junit.jupiter.api.Test;
 

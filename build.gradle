@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:0.8.18'
+    }
+}
+
+plugins {
+    id 'java'
+    id "com.google.protobuf" version "0.8.18"
+    id 'idea'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    ['armeria',
+     'armeria-brave',
+     'armeria-grpc',
+     'armeria-jetty9',
+     'armeria-kafka',
+     'armeria-logback',
+     'armeria-retrofit2',
+     'armeria-rxjava3',
+     'armeria-saml',
+     'armeria-thrift0.13',
+     'armeria-junit5',
+     'armeria-zookeeper3'].each {
+        implementation "com.linecorp.armeria:${it}:1.23.1"
+    }
+
+    testImplementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.0-pre2'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
